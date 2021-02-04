@@ -1,0 +1,13 @@
+image:
+  file: gitpod-gtoolkit.dockerfile
+
+ports:
+  - port: 5900
+    onOpen: ignore
+  - port: 6080
+    onOpen: open-browser
+
+tasks:
+  - name: gtoolkit
+    init: ./get-gtoolkit.sh
+    command: ./run-gtoolkit.sh
