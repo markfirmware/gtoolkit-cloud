@@ -9,4 +9,4 @@ ports:
 tasks:
   - name: gtoolkit
     init: ./get-gtoolkit.sh
-    command: ./run-gtoolkit.sh
+    command: sudo sed -i s/1920x1080/$SCREENSIZE/ /usr/bin/start-vnc-session.sh && sudo killall Xvfb && source ~/.bashrc && ./run-gtoolkit.sh
