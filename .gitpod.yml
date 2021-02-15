@@ -1,5 +1,4 @@
-image:
-  file: gitpod-gtoolkit.dockerfile
+image: gitpod/workspace-full-vnc
 
 ports:
   - port: 5900
