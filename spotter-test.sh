@@ -22,8 +22,10 @@ then
 fi
 if [[ "$INSTALL" != "" ]]
 then
-    sudo apt-get update
-    sudo apt-get install -y $INSTALL
+    echo
+    echo apt-get install $INSTALL
+    sudo apt-get -qq update
+    sudo apt-get -qq install $INSTALL
 fi
 
 cat > temp-open-spotter.st << __EOF__
@@ -37,7 +39,7 @@ xvfb-run -a -e xvfb.log /bin/bash -c \
     '   \
         ./glamoroustoolkit GlamorousToolkit.image st temp-open-spotter.st --no-quit --interactive \
         &  GT=$! \
-        && sleep 4 \
+        && sleep 30 \
         && xwd -root -out spotter.xwd \
         && kill $GT \
         && convert spotter.xwd spotter.png \

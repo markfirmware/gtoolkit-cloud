@@ -1,0 +1,30 @@
+name: spotter graphics test - partially transparent
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test_spotter_transparency:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+      fail-fast: false
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: capture spotter graphics
+        run: |
+          touch log-${{matrix.os}}.txt
+          ./get-gtoolkit.sh
+          cd GlamorousToolkit*
+          ldd lib*.so >> log-${{matrix.os}}.txt
+          ../spotter-test.sh
+          mkdir -p ../spotter-artifacts
+          mv spotter.png ../spotter-artifacts/spotter-${{matrix.os}}.png
+          mv log-* ../spotter-artifacts
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: spotter-artifacts
+          path: spotter-artifacts
