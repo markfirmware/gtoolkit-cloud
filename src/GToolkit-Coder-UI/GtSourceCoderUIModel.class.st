@@ -48,31 +48,19 @@ GtSourceCoderUIModel >> expanded [
 { #category : #'api - ui' }
 GtSourceCoderUIModel >> expanded: aBoolean [
     | aMethodProxy |
+	 aMethodProxy := nil.
     coder class == GtMethodContextCoder ifTrue: [
-       aMethodProxy := coder compiledMethod].
+        aMethodProxy := coder compiledMethod].
     coder class == GtMethodCoder ifTrue: [
-       aMethodProxy := coder].
+        aMethodProxy := coder].
     (aMethodProxy notNil and: aBoolean) ifTrue: [
-        GlobalCodingLog add:(OrderedCollection
-            with: coder class name
-            with: aMethodProxy protocol
-            with: aMethodProxy selector)].
-    GlobalHaltOnce ifTrue: [
-        GlobalHaltOnce := false.
-        self halt].
-  
+	     CodingMethodSignal new
+            className1: coder class name;
+            protocol: aMethodProxy protocol;
+            selector: aMethodProxy selector;
+				emit].
   expanded := aBoolean
-" 
-Smalltalk at: #GlobalHaltOnce
-    put: true.
 
-Smalltalk at: #GlobalCodingLog
-    put: OrderedCollection new.
-
-GlobalCodingLog.
-
-self halt.
-"
 ]
 
 { #category : #'api - ui' }
