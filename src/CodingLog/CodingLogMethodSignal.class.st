@@ -1,6 +1,6 @@
 Class {
-	#name : #CodingMethodSignal,
-	#superclass : #BeaconSignal,
+	#name : #CodingLogMethodSignal,
+	#superclass : #CodingLogSignal,
 	#instVars : [
 		'className1',
 		'selector'
@@ -9,22 +9,22 @@ Class {
 }
 
 { #category : #accessing }
-CodingMethodSignal class >> class: aClass selector: aSelector [
+CodingLogMethodSignal class >> class: aClass selector: aSelector [
 ^self new className1: aClass name; selector: aSelector; yourself
 ]
 
 { #category : #accessing }
-CodingMethodSignal >> className1 [
+CodingLogMethodSignal >> className1 [
 	^ className1
 ]
 
 { #category : #accessing }
-CodingMethodSignal >> className1: anObject [
+CodingLogMethodSignal >> className1: anObject [
 	className1 := anObject
 ]
 
 { #category : #accessing }
-CodingMethodSignal >> printOneLineContentsOn: stream [
+CodingLogMethodSignal >> printOneLineContentsOn: stream [
 	stream
 		nextPutAll: self className1;
 		nextPutAll: '>>';
@@ -32,11 +32,11 @@ CodingMethodSignal >> printOneLineContentsOn: stream [
 ]
 
 { #category : #accessing }
-CodingMethodSignal >> selector [
+CodingLogMethodSignal >> selector [
 	^ selector
 ]
 
 { #category : #accessing }
-CodingMethodSignal >> selector: anObject [
+CodingLogMethodSignal >> selector: anObject [
 	selector := anObject
 ]

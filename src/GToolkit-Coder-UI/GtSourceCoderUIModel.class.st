@@ -54,11 +54,11 @@ GtSourceCoderUIModel >> expanded: aBoolean [
     		self halt ].
     	self coder class name == #GtPharoSnippetCoder ifTrue: [
     		^self ].
-    	[ (CodingMethodSignal
+    	[ (CodingLogMethodSignal
     		class: self coder compiledMethod classBinding
     		selector: self coder compiledMethod selector) emit ]
     			on: Exception
-    			do: [:ex | WrapperSignal emit:
+    			do: [:ex | CodingLogErrorSignal emit:
     				(OrderedCollection
     					with: #exceptionDuringSignal
     					with: self class name
