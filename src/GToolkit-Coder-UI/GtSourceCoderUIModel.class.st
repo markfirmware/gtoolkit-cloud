@@ -47,20 +47,23 @@ GtSourceCoderUIModel >> expanded [
 
 { #category : #'api - ui' }
 GtSourceCoderUIModel >> expanded: aBoolean [
-    | aMethodProxy |
-	 aMethodProxy := nil.
-    coder class == GtMethodContextCoder ifTrue: [
-        aMethodProxy := coder compiledMethod].
-    coder class == GtMethodCoder ifTrue: [
-        aMethodProxy := coder].
-    (aMethodProxy notNil and: aBoolean) ifTrue: [
-	     CodingMethodSignal new
-            className1: coder class name;
-            protocol: aMethodProxy protocol;
-            selector: aMethodProxy selector;
-				emit].
-  expanded := aBoolean
-
+	expanded := aBoolean.
+    self expanded ifTrue: [
+    	(Smalltalk at: #HaltOnce ifAbsent: [ false ])ifTrue: [
+    		Smalltalk at: #HaltOnce put:  false.
+    		self halt ].
+    	self coder class name == #GtPharoSnippetCoder ifTrue: [
+    		^self ].
+    	[ (CodingMethodSignal
+    		class: self coder compiledMethod classBinding
+    		selector: self coder compiledMethod selector) emit ]
+    			on: Exception
+    			do: [:ex | WrapperSignal emit:
+    				(OrderedCollection
+    					with: #exceptionDuringSignal
+    					with: self class name
+    					with: self coder class name)]
+    ]
 ]
 
 { #category : #'api - ui' }
@@ -119,4 +122,22 @@ GtSourceCoderUIModel >> initialize [
 	
 	hasFocus := false.
 	expanded := true
+]
+
+{ #category : #accessing }
+GtSourceCoderUIModel >> selection [
+	self editorState ifNotNil: [ :theCompositeMemento |
+			theCompositeMemento mementos do: [ :eachMemento |
+				eachMemento isSelectionMemento ifTrue: [
+					^ eachMemento value ] ] ].
+	^ 1 to: 0
+]
+
+{ #category : #accessing }
+GtSourceCoderUIModel >> text [
+	self editorState ifNotNil: [ :theCompositeMemento |
+			theCompositeMemento mementos do: [ :eachMemento |
+				eachMemento isTextMemento ifTrue: [
+					^ eachMemento value ] ] ].
+	^ '' asRopedText
 ]
