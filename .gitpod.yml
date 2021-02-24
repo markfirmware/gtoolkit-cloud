@@ -1,4 +1,4 @@
-image: markformware/gitpod-bionic-vnc
+image: markformware/workspace-bionic-vnc-gtoolkit
 
 ports:
   - port: 5900
