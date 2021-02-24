@@ -1,4 +1,4 @@
-image: markformware/workspace-bionic-vnc-gtoolkit
+image: markformware/workspace-bionic-full-vnc-gtoolkit
 
 ports:
   - port: 5900
